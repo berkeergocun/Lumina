@@ -1,9 +1,9 @@
 <template>
   <div class="p-6 md:p-8">
     <!-- Header -->
-    <div class="flex items-center justify-between mb-8">
+    <div class="flex items-center justify-between mb-6">
       <div class="flex items-center gap-3">
-        <h1 class="text-xl font-bold">Gerçek Zamanlı</h1>
+        <h1 class="text-lg font-semibold">Gerçek Zamanlı</h1>
         <div class="flex items-center gap-1.5 text-xs px-2.5 py-1 rounded-full border border-border">
           <div :class="['size-2 rounded-full', isConnected ? 'bg-emerald-500 animate-pulse' : 'bg-red-400']" />
           {{ isConnected ? 'Canlı' : 'Bağlanıyor...' }}
@@ -13,14 +13,14 @@
 
     <!-- Active Visitors Counter -->
     <div class="grid gap-4 md:grid-cols-3 mb-8">
-      <div class="md:col-span-1 rounded-xl border border-border bg-card p-6 flex flex-col items-center justify-center text-center">
+      <div class="md:col-span-1 rounded-lg border border-border bg-card p-6 flex flex-col items-center justify-center text-center">
         <p class="text-xs font-medium text-muted-foreground uppercase tracking-wide mb-2">Şu An Aktif</p>
         <p class="text-6xl font-black tabular-nums tracking-tight">{{ data?.activeVisitors ?? 0 }}</p>
         <p class="text-xs text-muted-foreground mt-2">ziyaretçi online</p>
       </div>
 
       <!-- Active Pages -->
-      <div class="md:col-span-2 rounded-xl border border-border bg-card p-5">
+      <div class="md:col-span-2 rounded-lg border border-border bg-card p-5">
         <h2 class="text-sm font-semibold mb-4">Aktif Sayfalar</h2>
         <div v-if="data?.activePages?.length" class="space-y-2">
           <div
@@ -52,7 +52,7 @@
     <!-- Last 30 minutes & Recent Events -->
     <div class="grid md:grid-cols-2 gap-6">
       <!-- Recent Events -->
-      <div class="rounded-xl border border-border bg-card p-5">
+      <div class="rounded-lg border border-border bg-card p-5">
         <h2 class="text-sm font-semibold mb-4">Son Olaylar</h2>
         <div v-if="recentEvents.length" class="space-y-2 max-h-64 overflow-y-auto">
           <div
@@ -80,7 +80,7 @@
       </div>
 
       <!-- Connection info -->
-      <div class="rounded-xl border border-border bg-card p-5">
+      <div class="rounded-lg border border-border bg-card p-5">
         <h2 class="text-sm font-semibold mb-4">Bilgi</h2>
         <div class="space-y-4">
           <div class="flex items-center justify-between py-2 border-b border-border/50">

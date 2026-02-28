@@ -3,43 +3,63 @@
     <!-- Sidebar -->
     <aside
       :class="[
-        'flex flex-col border-r border-border bg-card transition-all duration-300 shrink-0',
-        uiStore.sidebarCollapsed ? 'w-16' : 'w-60',
-        'hidden md:flex'
+        'hidden md:flex flex-col h-screen bg-card border-r border-border shrink-0 overflow-hidden sidebar-transition',
+        uiStore.sidebarCollapsed ? 'w-[60px]' : 'w-[240px]',
       ]"
     >
       <!-- Logo -->
-      <div class="flex items-center gap-3 px-4 py-5 border-b border-border shrink-0">
-        <div class="size-8 bg-foreground rounded-lg flex items-center justify-center shrink-0">
-          <span class="text-background text-sm font-black">L</span>
+      <div
+        :class="[
+          'flex items-center border-b border-border shrink-0 h-14',
+          uiStore.sidebarCollapsed ? 'justify-center' : 'gap-2.5 px-4',
+        ]"
+      >
+        <div class="size-7 bg-foreground rounded-md flex items-center justify-center shrink-0">
+          <span class="text-background text-xs font-black tracking-tighter">L</span>
         </div>
-        <span v-if="!uiStore.sidebarCollapsed" class="font-bold text-lg tracking-tight truncate">Lumina</span>
+        <span v-if="!uiStore.sidebarCollapsed" class="font-semibold text-[15px] tracking-tight">Lumina</span>
       </div>
 
       <!-- Site Selector -->
-      <div v-if="!uiStore.sidebarCollapsed" class="px-3 py-3 border-b border-border">
-        <select
-          v-model="activeSiteId"
-          class="w-full text-sm bg-muted rounded-md px-3 py-2 border border-border focus:outline-none focus:ring-2 focus:ring-ring"
-          @change="onSiteChange"
-        >
-          <option value="" disabled>Site seçin...</option>
-          <option v-for="site in siteStore.sites" :key="site.siteId" :value="site.siteId">
-            {{ site.name }}
-          </option>
-        </select>
+      <div :class="['border-b border-border shrink-0', uiStore.sidebarCollapsed ? 'p-2' : 'p-3']">
+        <template v-if="!uiStore.sidebarCollapsed">
+          <div class="relative">
+            <select
+              v-model="activeSiteId"
+              class="w-full text-xs bg-muted/50 rounded-md px-3 py-2 border border-border/60 focus:outline-none focus:ring-1 focus:ring-ring appearance-none cursor-pointer text-foreground pr-7"
+              @change="onSiteChange"
+            >
+              <option value="" disabled>Site seçin...</option>
+              <option v-for="site in siteStore.sites" :key="site.siteId" :value="site.siteId">
+                {{ site.name }}
+              </option>
+            </select>
+            <LucideChevronsUpDown class="absolute right-2 top-1/2 -translate-y-1/2 size-3 text-muted-foreground pointer-events-none" />
+          </div>
+        </template>
+        <template v-else>
+          <NuxtLink
+            to="/dashboard"
+            class="flex items-center justify-center size-9 rounded-md hover:bg-muted transition-colors text-muted-foreground"
+            title="Sites"
+          >
+            <LucideLayoutGrid class="size-4" />
+          </NuxtLink>
+        </template>
       </div>
 
-      <!-- Nav Items -->
-      <nav class="flex-1 overflow-y-auto py-3 px-2 space-y-1">
+      <!-- Nav -->
+      <nav class="flex-1 overflow-y-auto py-2 px-2 space-y-0.5">
         <template v-for="item in navItems" :key="item.path">
           <NuxtLink
             :to="item.path"
+            :title="uiStore.sidebarCollapsed ? item.label : ''"
             :class="[
-              'flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors',
+              'flex items-center rounded-md text-sm font-medium transition-all',
+              uiStore.sidebarCollapsed ? 'justify-center size-9 mx-auto' : 'gap-3 px-3 py-2',
               isActive(item.path)
-                ? 'bg-foreground text-background'
-                : 'text-muted-foreground hover:text-foreground hover:bg-muted'
+                ? 'bg-foreground/90 text-background'
+                : 'text-muted-foreground hover:text-foreground hover:bg-muted',
             ]"
           >
             <component :is="item.icon" class="size-4 shrink-0" />
@@ -48,20 +68,25 @@
         </template>
       </nav>
 
-      <!-- Bottom Nav -->
-      <div class="border-t border-border px-2 py-3 space-y-1">
+      <!-- Bottom -->
+      <div class="border-t border-border py-2 px-2 space-y-0.5">
         <NuxtLink
           to="/settings/profile"
+          :title="uiStore.sidebarCollapsed ? 'Ayarlar' : ''"
           :class="[
-            'flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors',
-            'text-muted-foreground hover:text-foreground hover:bg-muted'
+            'flex items-center rounded-md text-sm transition-all text-muted-foreground hover:text-foreground hover:bg-muted',
+            uiStore.sidebarCollapsed ? 'justify-center size-9 mx-auto' : 'gap-3 px-3 py-2',
           ]"
         >
           <LucideSettings class="size-4 shrink-0" />
           <span v-if="!uiStore.sidebarCollapsed">Ayarlar</span>
         </NuxtLink>
         <button
-          class="w-full flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+          :title="uiStore.sidebarCollapsed ? 'Çıkış Yap' : ''"
+          :class="[
+            'flex items-center rounded-md text-sm transition-all text-muted-foreground hover:text-foreground hover:bg-muted w-full',
+            uiStore.sidebarCollapsed ? 'justify-center size-9 mx-auto' : 'gap-3 px-3 py-2',
+          ]"
           @click="handleLogout"
         >
           <LucideLogOut class="size-4 shrink-0" />
@@ -70,65 +95,60 @@
       </div>
     </aside>
 
-    <!-- Main Content -->
+    <!-- Main Content Area -->
     <div class="flex-1 flex flex-col min-w-0 overflow-hidden">
       <!-- Header -->
-      <header class="flex items-center gap-4 px-4 md:px-6 py-4 border-b border-border bg-card shrink-0">
+      <header class="flex items-center h-14 px-4 border-b border-border bg-card shrink-0 gap-3">
         <button
-          class="hidden md:flex items-center justify-center size-8 rounded-md hover:bg-muted transition-colors"
+          class="hidden md:flex items-center justify-center size-8 rounded-md hover:bg-muted transition-colors text-muted-foreground hover:text-foreground"
           @click="uiStore.toggleSidebar()"
         >
-          <LucideMenu class="size-4" />
+          <LucidePanelLeft class="size-4" />
         </button>
-
-        <!-- Mobile logo -->
         <div class="flex md:hidden items-center gap-2">
           <div class="size-7 bg-foreground rounded-md flex items-center justify-center">
             <span class="text-background text-xs font-black">L</span>
           </div>
-          <span class="font-bold">Lumina</span>
+          <span class="font-semibold text-sm">Lumina</span>
         </div>
-
         <div class="flex-1" />
-
-        <!-- Header Right -->
-        <div class="flex items-center gap-2">
+        <div class="flex items-center gap-1.5">
           <button
-            class="flex items-center justify-center size-8 rounded-md hover:bg-muted transition-colors text-muted-foreground"
+            class="flex items-center justify-center size-8 rounded-md hover:bg-muted transition-colors text-muted-foreground hover:text-foreground"
             @click="toggleTheme"
           >
             <LucideSun v-if="colorMode.value === 'dark'" class="size-4" />
             <LucideMoon v-else class="size-4" />
           </button>
-
-          <div class="flex items-center gap-2 pl-2 border-l border-border">
-            <div class="size-8 rounded-full bg-muted flex items-center justify-center text-sm font-semibold">
+          <div class="h-5 w-px bg-border mx-1" />
+          <div class="flex items-center gap-2.5">
+            <div class="size-8 rounded-full bg-foreground text-background flex items-center justify-center text-xs font-bold leading-none">
               {{ userInitial }}
             </div>
-            <span v-if="authStore.user" class="text-sm font-medium hidden sm:block">{{ authStore.user.name }}</span>
+            <span class="text-sm font-medium hidden sm:block">{{ authStore.user?.name }}</span>
           </div>
         </div>
       </header>
 
       <!-- Page Content -->
-      <main class="flex-1 overflow-auto">
+      <main class="flex-1 overflow-auto pb-14 md:pb-0">
         <slot />
       </main>
     </div>
 
     <!-- Mobile Bottom Nav -->
-    <nav class="md:hidden fixed bottom-0 inset-x-0 bg-card border-t border-border z-50">
-      <div class="flex items-center justify-around px-2 py-2">
+    <nav v-if="mobileNavItems.length" class="md:hidden fixed bottom-0 inset-x-0 bg-card border-t border-border z-50">
+      <div class="flex items-stretch">
         <template v-for="item in mobileNavItems" :key="item.path">
           <NuxtLink
             :to="item.path"
             :class="[
-              'flex flex-col items-center gap-1 px-3 py-1 rounded-md transition-colors',
-              isActive(item.path) ? 'text-foreground' : 'text-muted-foreground hover:text-foreground'
+              'flex flex-col items-center justify-center gap-1 py-2.5 flex-1 transition-colors',
+              isActive(item.path) ? 'text-foreground' : 'text-muted-foreground',
             ]"
           >
             <component :is="item.icon" class="size-5" />
-            <span class="text-xs">{{ item.label }}</span>
+            <span class="text-[10px] font-medium">{{ item.label }}</span>
           </NuxtLink>
         </template>
       </div>
@@ -143,14 +163,15 @@ import {
   LucideFileText,
   LucideGlobe2,
   LucideMonitor,
-  LucideStar,
+  LucideMousePointerClick,
   LucideDownload,
-  LucideGlobe,
   LucideSettings,
   LucideLogOut,
-  LucideMenu,
   LucideSun,
   LucideMoon,
+  LucidePanelLeft,
+  LucideChevronsUpDown,
+  LucideLayoutGrid,
 } from 'lucide-vue-next'
 import { useAuthStore } from '~/stores/auth.store'
 import { useSiteStore } from '~/stores/site.store'
@@ -168,27 +189,30 @@ const { logout } = useAuth()
 
 const activeSiteId = ref(siteStore.activeSiteId ?? '')
 
-const userInitial = computed(() => authStore.user?.name?.[0]?.toUpperCase() ?? 'U')
+watch(() => siteStore.activeSiteId, (id) => {
+  activeSiteId.value = id ?? ''
+})
 
-const currentSiteId = computed(() => route.params.siteId as string | undefined)
+const userInitial = computed(() => authStore.user?.name?.[0]?.toUpperCase() ?? 'U')
+const currentSiteId = computed(() => (route.params.siteId as string) || siteStore.activeSiteId || '')
 
 const navItems = computed(() => {
-  const base = currentSiteId.value || siteStore.activeSiteId
-  if (!base) return []
+  const base = currentSiteId.value
+  if (!base) return [{ label: 'Dashboard', path: '/dashboard', icon: LucideLayoutDashboard }]
   return [
     { label: 'Genel Bakış', path: `/dashboard/${base}`, icon: LucideLayoutDashboard },
     { label: 'Gerçek Zamanlı', path: `/dashboard/${base}/realtime`, icon: LucideZap },
     { label: 'Sayfalar', path: `/dashboard/${base}/pages`, icon: LucideFileText },
     { label: 'Kaynaklar', path: `/dashboard/${base}/sources`, icon: LucideGlobe2 },
-    { label: 'Coğrafi', path: `/dashboard/${base}/geo`, icon: LucideGlobe },
+    { label: 'Coğrafi', path: `/dashboard/${base}/geo`, icon: LucideGlobe2 },
     { label: 'Cihazlar', path: `/dashboard/${base}/devices`, icon: LucideMonitor },
-    { label: 'Etkinlikler', path: `/dashboard/${base}/events`, icon: LucideStar },
+    { label: 'Etkinlikler', path: `/dashboard/${base}/events`, icon: LucideMousePointerClick },
     { label: 'Dışa Aktar', path: `/dashboard/${base}/export`, icon: LucideDownload },
   ]
 })
 
 const mobileNavItems = computed(() => {
-  const base = currentSiteId.value || siteStore.activeSiteId
+  const base = currentSiteId.value
   if (!base) return []
   return [
     { label: 'Genel', path: `/dashboard/${base}`, icon: LucideLayoutDashboard },
@@ -200,9 +224,7 @@ const mobileNavItems = computed(() => {
 })
 
 function isActive(path: string) {
-  if (path === `/dashboard/${currentSiteId.value}` || path === `/dashboard/${siteStore.activeSiteId}`) {
-    return route.path === path
-  }
+  if (path === `/dashboard/${currentSiteId.value}` || path === '/dashboard') return route.path === path
   return route.path.startsWith(path)
 }
 
@@ -221,7 +243,6 @@ async function handleLogout() {
   await logout()
 }
 
-// Load sites on mount
 onMounted(async () => {
   authStore.loadFromStorage()
   if (authStore.isAuthenticated && siteStore.sites.length === 0) {
@@ -231,7 +252,7 @@ onMounted(async () => {
       if (res.success) {
         siteStore.setSites(res.data)
         if (!siteStore.activeSite && res.data.length > 0) {
-          const savedId = localStorage.getItem('activeSiteId')
+          const savedId = import.meta.client ? localStorage.getItem('activeSiteId') : null
           const found = res.data.find((s: any) => s.siteId === savedId) ?? res.data[0]
           siteStore.setActiveSite(found)
           activeSiteId.value = found.siteId
@@ -239,9 +260,7 @@ onMounted(async () => {
           activeSiteId.value = siteStore.activeSite.siteId
         }
       }
-    } catch (e) {
-      // ignore
-    }
+    } catch {}
   }
 })
 </script>

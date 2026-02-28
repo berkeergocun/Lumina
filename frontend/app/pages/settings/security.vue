@@ -1,9 +1,9 @@
 <template>
   <div class="p-6 md:p-8 max-w-xl space-y-10">
-    <h1 class="text-xl font-bold">Güvenlik</h1>
+    <h1 class="text-lg font-semibold">Güvenlik</h1>
 
     <!-- Change Password -->
-    <div class="rounded-xl border border-border bg-card p-6">
+    <div class="rounded-lg border border-border bg-card p-6">
       <h2 class="text-sm font-semibold mb-5">Şifre Değiştir</h2>
       <form class="space-y-4" @submit.prevent="changePassword">
         <div class="space-y-2">
@@ -64,7 +64,7 @@
     </div>
 
     <!-- 2FA -->
-    <div class="rounded-xl border border-border bg-card p-6">
+    <div class="rounded-lg border border-border bg-card p-6">
       <div class="flex items-center justify-between mb-5">
         <div>
           <h2 class="text-sm font-semibold">İki Faktörlü Doğrulama (2FA)</h2>

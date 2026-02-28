@@ -1,12 +1,12 @@
 <template>
-  <div class="rounded-xl border border-border bg-card p-5">
+  <div class="rounded-lg border border-border bg-card p-5">
     <div class="flex items-center justify-between mb-3">
       <span class="text-xs font-medium text-muted-foreground uppercase tracking-wide">{{ label }}</span>
       <component :is="icon" class="size-4 text-muted-foreground" />
     </div>
     <div class="flex items-end justify-between gap-2">
       <div>
-        <p v-if="!loading" class="text-2xl font-bold tracking-tight">{{ formattedValue }}</p>
+        <p v-if="!loading" class="text-xl font-semibold tracking-tight">{{ formattedValue }}</p>
         <div v-else class="h-8 w-24 rounded bg-muted animate-pulse" />
         <div v-if="change !== undefined && !loading" class="flex items-center gap-1 mt-1">
           <LucideTrendingUp v-if="change > 0" class="size-3 text-emerald-600" />

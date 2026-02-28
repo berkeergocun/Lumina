@@ -1,13 +1,13 @@
 <template>
   <div class="p-6 md:p-8 max-w-4xl mx-auto">
-    <div class="mb-8">
-      <h1 class="text-2xl font-bold tracking-tight">Dashboard</h1>
+    <div class="mb-6">
+      <h1 class="text-xl font-semibold tracking-tight">Dashboard</h1>
       <p class="text-muted-foreground text-sm mt-1">Analiz etmek istediğiniz siteyi seçin</p>
     </div>
 
     <!-- Loading -->
     <div v-if="isLoading" class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-      <div v-for="i in 3" :key="i" class="h-28 rounded-xl bg-muted animate-pulse" />
+      <div v-for="i in 3" :key="i" class="h-28 rounded-lg bg-muted animate-pulse" />
     </div>
 
     <!-- No sites -->
@@ -30,7 +30,7 @@
         v-for="site in sites"
         :key="site.siteId"
         :to="`/dashboard/${site.siteId}`"
-        class="group block p-5 rounded-xl border border-border bg-card hover:border-foreground/30 hover:shadow-sm transition-all"
+        class="group block p-5 rounded-lg border border-border bg-card hover:border-foreground/30 hover:shadow-sm transition-all"
       >
         <div class="flex items-start justify-between mb-3">
           <div class="size-9 rounded-lg bg-muted flex items-center justify-center text-sm font-bold">
@@ -54,7 +54,7 @@
       <!-- Add site card -->
       <NuxtLink
         to="/sites/new"
-        class="flex flex-col items-center justify-center gap-2 p-5 rounded-xl border border-dashed border-border hover:border-foreground/30 hover:bg-muted/50 transition-all text-muted-foreground hover:text-foreground"
+        class="flex flex-col items-center justify-center gap-2 p-5 rounded-lg border border-dashed border-border hover:border-foreground/30 hover:bg-muted/50 transition-all text-muted-foreground hover:text-foreground"
       >
         <LucidePlus class="size-6" />
         <span class="text-sm font-medium">Yeni Site Ekle</span>

@@ -1,8 +1,8 @@
 <template>
   <div class="p-6 md:p-8 max-w-5xl mx-auto">
-    <div class="flex items-center justify-between mb-8">
+    <div class="flex items-center justify-between mb-6">
       <div>
-        <h1 class="text-xl font-bold">Siteler</h1>
+        <h1 class="text-lg font-semibold">Siteler</h1>
         <p class="text-muted-foreground text-sm mt-0.5">Web sitelerinizi yönetin</p>
       </div>
       <NuxtLink
@@ -15,7 +15,7 @@
     </div>
 
     <div v-if="isLoading" class="space-y-3">
-      <div v-for="i in 3" :key="i" class="h-20 rounded-xl bg-muted animate-pulse" />
+      <div v-for="i in 3" :key="i" class="h-20 rounded-lg bg-muted animate-pulse" />
     </div>
 
     <div v-else-if="sites.length === 0" class="text-center py-16 border border-dashed border-border rounded-xl">
@@ -31,7 +31,7 @@
       <div
         v-for="site in sites"
         :key="site.siteId"
-        class="flex items-center justify-between p-4 rounded-xl border border-border bg-card"
+        class="flex items-center justify-between p-4 rounded-lg border border-border bg-card"
       >
         <div class="flex items-center gap-4 min-w-0">
           <div class="size-10 rounded-lg bg-muted flex items-center justify-center font-bold text-sm shrink-0">
@@ -81,10 +81,10 @@
     <!-- Delete Dialog -->
     <div
       v-if="deleteTarget"
-      class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
+      class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4"
       @click.self="deleteTarget = null"
     >
-      <div class="bg-card border border-border rounded-xl p-6 max-w-sm w-full shadow-xl">
+      <div class="bg-card border border-border rounded-lg p-6 max-w-sm w-full shadow-xl">
         <h3 class="font-semibold text-lg mb-2">Siteyi Sil</h3>
         <p class="text-muted-foreground text-sm mb-6">
           <span class="font-semibold text-foreground">{{ deleteTarget.name }}</span> sitesini silmek istediğinize emin misiniz?

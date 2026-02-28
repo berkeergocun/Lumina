@@ -1,13 +1,17 @@
 <template>
   <div class="p-6 md:p-8">
-    <h1 class="text-xl font-bold mb-8">Trafik Kaynakları</h1>
+    <AppPageHeader title="Trafik Kaynakları" :description="siteStore.activeSite?.domain">
+      <template #actions>
+        <AppDateRangeFilter v-model="selectedRange" @update:model-value="fetchData" />
+      </template>
+    </AppPageHeader>
 
     <!-- Tabs -->
-    <div class="flex items-center gap-1 p-1 bg-muted rounded-lg text-sm mb-6 w-fit flex-wrap gap-1">
+    <div class="flex items-center gap-1 p-1 bg-muted rounded-lg text-xs mb-6 w-fit">
       <button
         v-for="tab in tabs"
         :key="tab.value"
-        :class="['px-3 py-1.5 rounded font-medium transition-colors', activeTab === tab.value ? 'bg-background shadow-sm' : 'text-muted-foreground hover:text-foreground']"
+        :class="['px-2.5 py-1 rounded font-medium transition-colors', activeTab === tab.value ? 'bg-background shadow-sm text-foreground' : 'text-muted-foreground hover:text-foreground']"
         @click="activeTab = tab.value"
       >
         {{ tab.label }}
@@ -19,7 +23,7 @@
     </div>
 
     <!-- Sources table -->
-    <div v-else class="rounded-xl border border-border bg-card overflow-hidden">
+    <div v-else class="rounded-lg border border-border bg-card overflow-hidden">
       <table class="w-full text-sm">
         <thead>
           <tr class="border-b border-border bg-muted/50">
@@ -32,9 +36,7 @@
         <tbody>
           <tr v-for="row in currentData" :key="row[rowKey]" class="border-b border-border/50 last:border-0 hover:bg-muted/30 transition-colors">
             <td class="px-4 py-3">
-              <div class="flex items-center gap-2">
-                <span class="text-sm">{{ row[rowKey] || 'Doğrudan' }}</span>
-              </div>
+              <span class="text-sm">{{ row[rowKey] || 'Doğrudan' }}</span>
             </td>
             <td class="px-4 py-3 text-right font-semibold tabular-nums">{{ row.visitors?.toLocaleString() ?? '—' }}</td>
             <td class="px-4 py-3 text-right text-muted-foreground tabular-nums">{{ row.pageviews?.toLocaleString() ?? '—' }}</td>
@@ -51,16 +53,19 @@
 
 <script setup lang="ts">
 import { useReports } from '~/composables/useReports'
+import { useSiteStore } from '~/stores/site.store'
 
 definePageMeta({ layout: 'default', middleware: 'auth' })
 
 const route = useRoute()
 const { getSources } = useReports()
+const siteStore = useSiteStore()
 const siteId = computed(() => route.params.siteId as string)
 
 const sources = ref<any>(null)
 const isLoading = ref(true)
 const activeTab = ref('sources')
+const selectedRange = ref('30')
 
 const tabs = [
   { label: 'Kaynaklar', value: 'sources' },
@@ -79,12 +84,24 @@ const rowKey = computed(() => {
 
 const currentData = computed(() => sources.value?.[activeTab.value] ?? [])
 
-onMounted(async () => {
+function getDateRange(days: string) {
+  const to = new Date()
+  const from = new Date()
+  if (days !== '0') from.setDate(from.getDate() - parseInt(days))
+  const fmt = (d: Date) => d.toISOString().split('T')[0]
+  return { from: fmt(from), to: fmt(to) }
+}
+
+async function fetchData() {
+  isLoading.value = true
   try {
-    const res = await getSources({ siteId: siteId.value })
+    const { from, to } = getDateRange(selectedRange.value)
+    const res = await getSources({ siteId: siteId.value, from, to })
     if (res.success) sources.value = res.data
   } finally {
     isLoading.value = false
   }
-})
+}
+
+onMounted(fetchData)
 </script>

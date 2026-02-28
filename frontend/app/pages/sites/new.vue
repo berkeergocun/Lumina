@@ -1,15 +1,15 @@
 <template>
   <div class="p-6 md:p-8 max-w-2xl mx-auto">
-    <div class="mb-8">
+    <div class="mb-6">
       <NuxtLink to="/sites" class="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground mb-4 transition-colors">
         <LucideArrowLeft class="size-4" />
         Sitelere Dön
       </NuxtLink>
-      <h1 class="text-xl font-bold">Yeni Site Ekle</h1>
+      <h1 class="text-lg font-semibold">Yeni Site Ekle</h1>
     </div>
 
     <!-- Steps -->
-    <div class="flex items-center gap-3 mb-8">
+    <div class="flex items-center gap-3 mb-6">
       <template v-for="(step, i) in steps" :key="i">
         <div class="flex items-center gap-2">
           <div
@@ -35,7 +35,7 @@
 
     <!-- Step 1: Domain -->
     <div v-if="currentStep === 0" class="space-y-5">
-      <div class="rounded-xl border border-border bg-card p-6 space-y-4">
+      <div class="rounded-lg border border-border bg-card p-6 space-y-4">
         <div class="space-y-2">
           <label class="text-sm font-medium" for="site-name">Site Adı</label>
           <input
@@ -91,7 +91,7 @@
 
     <!-- Step 2: Verification -->
     <div v-else-if="currentStep === 1" class="space-y-5">
-      <div class="rounded-xl border border-border bg-card p-6 space-y-5">
+      <div class="rounded-lg border border-border bg-card p-6 space-y-5">
         <div>
           <h3 class="font-semibold mb-1">Site Sahipliğini Doğrulayın</h3>
           <p class="text-sm text-muted-foreground">Aşağıdaki yöntemlerden birini kullanarak sitenizin sahibi olduğunuzu doğrulayın.</p>
@@ -154,7 +154,7 @@
 
     <!-- Step 3: Snippet -->
     <div v-else class="space-y-5">
-      <div class="rounded-xl border border-border bg-card p-6 space-y-4">
+      <div class="rounded-lg border border-border bg-card p-6 space-y-4">
         <div class="flex items-center gap-3">
           <div class="size-10 rounded-full bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center">
             <LucideCheckCircle class="size-5 text-emerald-600 dark:text-emerald-400" />

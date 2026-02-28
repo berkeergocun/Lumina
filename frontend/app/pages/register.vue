@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="mb-6">
-      <h1 class="text-2xl font-bold tracking-tight">Hesap Oluşturun</h1>
+      <h1 class="text-xl font-semibold tracking-tight">Hesap Oluşturun</h1>
       <p class="text-muted-foreground text-sm mt-1">Lumina Analytics'e ücretsiz katılın</p>
     </div>
 

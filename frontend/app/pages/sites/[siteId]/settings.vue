@@ -1,11 +1,11 @@
 <template>
   <div class="p-6 md:p-8 max-w-2xl mx-auto">
-    <div class="mb-8">
+    <div class="mb-6">
       <NuxtLink :to="`/sites`" class="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground mb-4 transition-colors">
         <LucideArrowLeft class="size-4" />
         Sitelere Dön
       </NuxtLink>
-      <h1 class="text-xl font-bold">Site Ayarları</h1>
+      <h1 class="text-lg font-semibold">Site Ayarları</h1>
     </div>
 
     <div v-if="isLoading" class="space-y-4">

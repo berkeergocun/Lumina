@@ -21,8 +21,9 @@ export default defineNuxtConfig({
 
   colorMode: {
     classSuffix: '',
-    preference: 'light',
-    fallback: 'light',
+    preference: 'dark',
+    fallback: 'dark',
+    storageKey: 'lumina-color-mode',
   },
 
   css: ['~/assets/css/main.css'],

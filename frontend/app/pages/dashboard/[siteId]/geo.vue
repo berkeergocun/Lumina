@@ -1,15 +1,19 @@
 <template>
   <div class="p-6 md:p-8">
-    <h1 class="text-xl font-bold mb-8">Coğrafi Dağılım</h1>
+    <AppPageHeader title="Coğrafi Dağılım" :description="siteStore.activeSite?.domain">
+      <template #actions>
+        <AppDateRangeFilter v-model="selectedRange" @update:model-value="fetchData" />
+      </template>
+    </AppPageHeader>
 
     <div v-if="isLoading" class="space-y-4">
-      <div class="h-64 rounded-xl bg-muted animate-pulse" />
-      <div class="h-48 rounded-xl bg-muted animate-pulse" />
+      <div class="h-64 rounded-lg bg-muted animate-pulse" />
+      <div class="h-48 rounded-lg bg-muted animate-pulse" />
     </div>
 
     <div v-else class="space-y-6">
       <!-- Country Table -->
-      <div class="rounded-xl border border-border bg-card overflow-hidden">
+      <div class="rounded-lg border border-border bg-card overflow-hidden">
         <div class="px-4 py-3 border-b border-border">
           <h2 class="text-sm font-semibold">Ülkeler</h2>
         </div>
@@ -53,7 +57,7 @@
       </div>
 
       <!-- Cities -->
-      <div v-if="cities.length > 0" class="rounded-xl border border-border bg-card overflow-hidden">
+      <div v-if="cities.length > 0" class="rounded-lg border border-border bg-card overflow-hidden">
         <div class="px-4 py-3 border-b border-border">
           <h2 class="text-sm font-semibold">Şehirler</h2>
         </div>
@@ -82,19 +86,30 @@
 
 <script setup lang="ts">
 import { useReports } from '~/composables/useReports'
+import { useSiteStore } from '~/stores/site.store'
 
 definePageMeta({ layout: 'default', middleware: 'auth' })
 
 const route = useRoute()
 const { getGeo } = useReports()
+const siteStore = useSiteStore()
 const siteId = computed(() => route.params.siteId as string)
 
 const countries = ref<any[]>([])
 const cities = ref<any[]>([])
 const isLoading = ref(true)
+const selectedRange = ref('30')
+
+function getDateRange(days: string) {
+  const to = new Date()
+  const from = new Date()
+  if (days !== '0') from.setDate(from.getDate() - parseInt(days))
+  const fmt = (d: Date) => d.toISOString().split('T')[0]
+  return { from: fmt(from), to: fmt(to) }
+}
 
 function getFlagEmoji(code: string) {
-  if (!code || code.length !== 2) return '🌐'
+  if (!code || code.length !== 2) return '\u{1F310}'
   return String.fromCodePoint(...[...code.toUpperCase()].map((c) => 0x1F1E0 + c.charCodeAt(0) - 65))
 }
 
@@ -103,9 +118,11 @@ function getPercent(visitors: number) {
   return (visitors / total) * 100
 }
 
-onMounted(async () => {
+async function fetchData() {
+  isLoading.value = true
   try {
-    const res = await getGeo({ siteId: siteId.value })
+    const { from, to } = getDateRange(selectedRange.value)
+    const res = await getGeo({ siteId: siteId.value, from, to })
     if (res.success) {
       countries.value = res.data.countries
       cities.value = res.data.cities
@@ -113,5 +130,7 @@ onMounted(async () => {
   } finally {
     isLoading.value = false
   }
-})
+}
+
+onMounted(fetchData)
 </script>

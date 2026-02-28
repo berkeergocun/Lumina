@@ -1,9 +1,9 @@
 <template>
   <div class="p-6 md:p-8">
     <!-- Header -->
-    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
       <div>
-        <h1 class="text-xl font-bold">Genel Bakış</h1>
+        <h1 class="text-lg font-semibold">Genel Bakış</h1>
         <p class="text-muted-foreground text-sm mt-0.5">{{ siteStore.activeSite?.domain ?? '' }}</p>
       </div>
 
@@ -28,7 +28,7 @@
     </div>
 
     <!-- Metric Cards -->
-    <div class="grid grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
+    <div class="grid grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
       <MetricCard
         label="Benzersiz Ziyaretçi"
         :value="overview?.uniqueVisitors ?? 0"
@@ -70,7 +70,7 @@
     </div>
 
     <!-- Chart -->
-    <div class="rounded-xl border border-border bg-card p-5 mb-6">
+    <div class="rounded-lg border border-border bg-card p-5 mb-6">
       <div class="flex items-center justify-between mb-4">
         <h2 class="text-sm font-semibold">Zaman Serisi</h2>
         <div class="flex items-center gap-1 p-1 bg-muted rounded-lg text-xs">
@@ -121,7 +121,7 @@
     <!-- Bottom Row -->
     <div class="grid md:grid-cols-2 gap-6">
       <!-- Top Pages -->
-      <div class="rounded-xl border border-border bg-card p-5">
+      <div class="rounded-lg border border-border bg-card p-5">
         <h2 class="text-sm font-semibold mb-4">En Çok Ziyaret Edilen Sayfalar</h2>
         <div v-if="isLoadingPages" class="space-y-3">
           <div v-for="i in 5" :key="i" class="h-8 rounded bg-muted animate-pulse" />
@@ -145,7 +145,7 @@
       </div>
 
       <!-- Devices -->
-      <div class="rounded-xl border border-border bg-card p-5">
+      <div class="rounded-lg border border-border bg-card p-5">
         <h2 class="text-sm font-semibold mb-4">Cihaz Dağılımı</h2>
         <div v-if="isLoadingDevices" class="space-y-3">
           <div v-for="i in 3" :key="i" class="h-9 rounded bg-muted animate-pulse" />

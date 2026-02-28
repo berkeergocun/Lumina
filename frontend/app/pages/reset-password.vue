@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="mb-6">
-      <h1 class="text-2xl font-bold tracking-tight">Yeni Şifre Belirle</h1>
+      <h1 class="text-xl font-semibold tracking-tight">Yeni Şifre Belirle</h1>
       <p class="text-muted-foreground text-sm mt-1">Güçlü bir şifre seçin</p>
     </div>
 

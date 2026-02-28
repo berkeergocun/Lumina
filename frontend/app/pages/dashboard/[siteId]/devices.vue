@@ -1,15 +1,19 @@
 <template>
   <div class="p-6 md:p-8">
-    <h1 class="text-xl font-bold mb-8">Cihaz ve Tarayıcı</h1>
+    <AppPageHeader title="Cihaz ve Tarayıcı" :description="siteStore.activeSite?.domain">
+      <template #actions>
+        <AppDateRangeFilter v-model="selectedRange" @update:model-value="fetchData" />
+      </template>
+    </AppPageHeader>
 
     <div v-if="isLoading" class="grid md:grid-cols-2 gap-6">
-      <div v-for="i in 4" :key="i" class="h-48 rounded-xl bg-muted animate-pulse" />
+      <div v-for="i in 4" :key="i" class="h-48 rounded-lg bg-muted animate-pulse" />
     </div>
 
     <div v-else class="space-y-6">
       <div class="grid md:grid-cols-3 gap-4">
         <!-- Device Types -->
-        <div class="rounded-xl border border-border bg-card p-5">
+        <div class="rounded-lg border border-border bg-card p-5">
           <h2 class="text-sm font-semibold mb-4">Cihaz Türü</h2>
           <div class="space-y-3">
             <div v-for="item in devices?.deviceTypes ?? []" :key="item.device" class="space-y-1.5">
@@ -30,7 +34,7 @@
         </div>
 
         <!-- Browsers -->
-        <div class="rounded-xl border border-border bg-card p-5">
+        <div class="rounded-lg border border-border bg-card p-5">
           <h2 class="text-sm font-semibold mb-4">Tarayıcı</h2>
           <div class="space-y-3">
             <div v-for="item in devices?.browsers ?? []" :key="item.browser" class="space-y-1.5">
@@ -46,7 +50,7 @@
         </div>
 
         <!-- OS -->
-        <div class="rounded-xl border border-border bg-card p-5">
+        <div class="rounded-lg border border-border bg-card p-5">
           <h2 class="text-sm font-semibold mb-4">İşletim Sistemi</h2>
           <div class="space-y-3">
             <div v-for="item in devices?.operatingSystems ?? []" :key="item.os" class="space-y-1.5">
@@ -63,7 +67,7 @@
       </div>
 
       <!-- Screen Resolutions -->
-      <div v-if="devices?.screenResolutions?.length" class="rounded-xl border border-border bg-card overflow-hidden">
+      <div v-if="devices?.screenResolutions?.length" class="rounded-lg border border-border bg-card overflow-hidden">
         <div class="px-4 py-3 border-b border-border">
           <h2 class="text-sm font-semibold">Ekran Çözünürlüğü</h2>
         </div>
@@ -95,22 +99,37 @@
 <script setup lang="ts">
 import { LucideMonitor, LucideSmartphone, LucideTablet } from 'lucide-vue-next'
 import { useReports } from '~/composables/useReports'
+import { useSiteStore } from '~/stores/site.store'
 
 definePageMeta({ layout: 'default', middleware: 'auth' })
 
 const route = useRoute()
 const { getDevices } = useReports()
+const siteStore = useSiteStore()
 const siteId = computed(() => route.params.siteId as string)
 
 const devices = ref<any>(null)
 const isLoading = ref(true)
+const selectedRange = ref('30')
 
-onMounted(async () => {
+function getDateRange(days: string) {
+  const to = new Date()
+  const from = new Date()
+  if (days !== '0') from.setDate(from.getDate() - parseInt(days))
+  const fmt = (d: Date) => d.toISOString().split('T')[0]
+  return { from: fmt(from), to: fmt(to) }
+}
+
+async function fetchData() {
+  isLoading.value = true
   try {
-    const res = await getDevices({ siteId: siteId.value })
+    const { from, to } = getDateRange(selectedRange.value)
+    const res = await getDevices({ siteId: siteId.value, from, to })
     if (res.success) devices.value = res.data
   } finally {
     isLoading.value = false
   }
-})
+}
+
+onMounted(fetchData)
 </script>

@@ -8,14 +8,16 @@ interface UIState {
 export const useUIStore = defineStore('ui', {
   state: (): UIState => ({
     sidebarCollapsed: false,
-    theme: 'light',
+    theme: 'dark',
   }),
 
   actions: {
     toggleSidebar() {
       this.sidebarCollapsed = !this.sidebarCollapsed
     },
-
+    setSidebarCollapsed(val: boolean) {
+      this.sidebarCollapsed = val
+    },
     setTheme(theme: 'light' | 'dark' | 'system') {
       this.theme = theme
     },

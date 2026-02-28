@@ -1,7 +1,7 @@
 <template>
   <div class="p-6 md:p-8">
-    <div class="flex items-center justify-between mb-8">
-      <h1 class="text-xl font-bold">Sayfalar</h1>
+    <div class="flex items-center justify-between mb-6">
+      <h1 class="text-lg font-semibold">Sayfalar</h1>
       <div class="flex items-center gap-2">
         <input
           v-model="search"
@@ -18,7 +18,7 @@
       </div>
     </div>
 
-    <div class="rounded-xl border border-border bg-card overflow-hidden">
+    <div class="rounded-lg border border-border bg-card overflow-hidden">
       <div class="overflow-x-auto">
         <table class="w-full text-sm">
           <thead>
@@ -89,10 +89,10 @@
     <!-- Page Detail Modal -->
     <div
       v-if="selectedPage"
-      class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
+      class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4"
       @click.self="selectedPage = null"
     >
-      <div class="bg-card border border-border rounded-xl p-6 max-w-lg w-full shadow-xl">
+      <div class="bg-card border border-border rounded-lg p-6 max-w-lg w-full shadow-xl">
         <div class="flex items-start justify-between mb-4">
           <h3 class="font-semibold text-sm font-mono break-all">{{ selectedPage.url }}</h3>
           <button class="text-muted-foreground hover:text-foreground ml-4 shrink-0" @click="selectedPage = null">

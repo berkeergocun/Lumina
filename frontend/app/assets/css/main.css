@@ -3,51 +3,58 @@
 @tailwind utilities;
 
 @layer base {
+  /* Light mode */
   :root {
-    --background: 0 0% 100%;
-    --foreground: 240 10% 3.9%;
+    --background: 0 0% 98.5%;
+    --foreground: 240 8% 6%;
     --card: 0 0% 100%;
-    --card-foreground: 240 10% 3.9%;
+    --card-foreground: 240 8% 6%;
     --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 3.9%;
-    --primary: 240 10% 3.9%;
+    --popover-foreground: 240 8% 6%;
+    --primary: 240 8% 8%;
     --primary-foreground: 0 0% 98%;
-    --secondary: 240 4.8% 95.9%;
-    --secondary-foreground: 240 5.9% 10%;
-    --muted: 240 4.8% 95.9%;
-    --muted-foreground: 240 3.8% 46.1%;
-    --accent: 240 4.8% 95.9%;
-    --accent-foreground: 240 5.9% 10%;
-    --destructive: 0 72.2% 50.6%;
+    --secondary: 240 5% 94%;
+    --secondary-foreground: 240 8% 10%;
+    --muted: 240 5% 94%;
+    --muted-foreground: 240 4% 46%;
+    --accent: 240 5% 92%;
+    --accent-foreground: 240 8% 10%;
+    --destructive: 0 84% 55%;
     --destructive-foreground: 0 0% 98%;
-    --border: 240 5.9% 90%;
-    --input: 240 5.9% 90%;
-    --ring: 240 10% 3.9%;
-    --radius: 0.625rem;
-    --success: 142 76% 36%;
-    --warning: 38 92% 50%;
+    --border: 240 6% 88%;
+    --input: 240 6% 88%;
+    --ring: 240 8% 8%;
+    --radius: 0.5rem;
+    --success: 142 70% 38%;
+    --warning: 38 90% 48%;
+    --sidebar-width: 240px;
+    --sidebar-collapsed-width: 60px;
+    --header-height: 56px;
   }
 
+  /* Dark mode — default */
   .dark {
-    --background: 240 10% 3.9%;
-    --foreground: 0 0% 98%;
-    --card: 240 10% 3.9%;
-    --card-foreground: 0 0% 98%;
-    --popover: 240 10% 3.9%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 0 0% 98%;
-    --primary-foreground: 240 5.9% 10%;
-    --secondary: 240 3.7% 15.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 64.9%;
-    --accent: 240 3.7% 15.9%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 62.8% 30.6%;
+    --background: 240 6% 8%;
+    --foreground: 0 0% 96%;
+    --card: 240 5% 11%;
+    --card-foreground: 0 0% 96%;
+    --popover: 240 5% 10%;
+    --popover-foreground: 0 0% 96%;
+    --primary: 0 0% 97%;
+    --primary-foreground: 240 6% 9%;
+    --secondary: 240 4% 17%;
+    --secondary-foreground: 0 0% 96%;
+    --muted: 240 4% 15%;
+    --muted-foreground: 240 5% 55%;
+    --accent: 240 4% 18%;
+    --accent-foreground: 0 0% 96%;
+    --destructive: 0 70% 55%;
     --destructive-foreground: 0 0% 98%;
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
-    --ring: 240 4.9% 83.9%;
+    --border: 240 4% 18%;
+    --input: 240 4% 17%;
+    --ring: 240 5% 72%;
+    --success: 142 62% 44%;
+    --warning: 38 88% 52%;
   }
 }
 
@@ -76,4 +83,72 @@
 }
 ::-webkit-scrollbar-thumb:hover {
   @apply bg-muted-foreground;
+}
+
+/* Transitions */
+*, *::before, *::after {
+  transition-property: background-color, border-color, color, opacity;
+  transition-duration: 150ms;
+  transition-timing-function: ease;
+}
+
+/* Focus ring */
+:focus-visible {
+  outline: 2px solid hsl(var(--ring));
+  outline-offset: 2px;
+}
+
+/* Sidebar transition */
+.sidebar-transition {
+  transition: width 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Number font feature settings */
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Animations */
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slide-in-from-left {
+  from { opacity: 0; transform: translateX(-8px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+.animate-fade-in { animation: fade-in 0.2s ease forwards; }
+.animate-slide-in { animation: slide-in-from-left 0.2s ease forwards; }
+
+/* Sidebar tooltip */
+[data-tooltip] {
+  position: relative;
+}
+
+/* Status badge */
+.status-verified {
+  @apply bg-emerald-500/10 text-emerald-500 dark:bg-emerald-500/15 dark:text-emerald-400;
+}
+.status-pending {
+  @apply bg-amber-500/10 text-amber-600 dark:bg-amber-500/15 dark:text-amber-400;
+}
+.status-error {
+  @apply bg-red-500/10 text-red-600 dark:bg-red-500/15 dark:text-red-400;
+}
+
+/* Metric number */
+.metric-value {
+  @apply text-2xl font-semibold tracking-tight tabular-nums;
+}
+
+/* Page section */
+.page-header {
+  @apply flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6;
+}
+
+/* Card hover */
+.card-interactive {
+  @apply transition-all duration-150 hover:border-border/80 hover:shadow-sm cursor-pointer;
 }

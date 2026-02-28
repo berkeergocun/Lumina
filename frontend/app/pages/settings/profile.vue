@@ -1,6 +1,6 @@
 <template>
   <div class="p-6 md:p-8 max-w-xl">
-    <h1 class="text-xl font-bold mb-8">Profil Ayarları</h1>
+    <h1 class="text-lg font-semibold mb-6">Profil Ayarları</h1>
 
     <form class="space-y-6" @submit.prevent="save">
       <!-- Avatar Section -->
