@@ -39,15 +39,16 @@ export const realtimeRoutes = new Elysia({ prefix: '/realtime', tags: ['Realtime
   // GET /realtime/snapshot?siteId= — tek seferlik snapshot
   .get(
     '/snapshot',
-    async ({ query, error }) => {
+    async ({query, set}) => {
       try {
         const data = await getRealtimeData(query.siteId)
         return { success: true, data }
       } catch (err: any) {
-        return error(500, {
+        set.status = 500
+        return {
           success: false,
           error: { code: 'REALTIME_FAILED', message: err.message },
-        })
+        }
       }
     },
     {

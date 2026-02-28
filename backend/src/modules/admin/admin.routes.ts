@@ -11,7 +11,7 @@ export const adminRoutes = new Elysia({ prefix: '/admin', tags: ['Admin'] })
   // GET /admin/users
   .get(
     '/users',
-    async ({ error }) => {
+    async () => {
       try {
         const users = await UserModel.find({})
           .select('-passwordHash -passwordResetToken -twoFactorSecret')
@@ -29,10 +29,11 @@ export const adminRoutes = new Elysia({ prefix: '/admin', tags: ['Admin'] })
           meta: { total: users.length },
         }
       } catch (err: any) {
-        return error(500, {
+        set.status = 500
+        return {
           success: false,
           error: { code: 'FETCH_FAILED', message: err.message },
-        })
+        }
       }
     },
     { detail: { summary: 'Tüm kullanıcıları listele' } }
@@ -41,21 +42,23 @@ export const adminRoutes = new Elysia({ prefix: '/admin', tags: ['Admin'] })
   // DELETE /admin/users/:userId
   .delete(
     '/users/:userId',
-    async ({ params, error }) => {
+    async ({params, set}) => {
       try {
         const user = await UserModel.findByIdAndDelete(params.userId)
         if (!user) {
-          return error(404, {
+          set.status = 404
+          return {
             success: false,
             error: { code: 'USER_NOT_FOUND', message: 'Kullanıcı bulunamadı.' },
-          })
+          }
         }
         return { success: true, data: { message: 'Kullanıcı silindi.' } }
       } catch (err: any) {
-        return error(500, {
+        set.status = 500
+        return {
           success: false,
           error: { code: 'DELETE_FAILED', message: err.message },
-        })
+        }
       }
     },
     {
@@ -67,7 +70,7 @@ export const adminRoutes = new Elysia({ prefix: '/admin', tags: ['Admin'] })
   // GET /admin/stats — platform istatistikleri
   .get(
     '/stats',
-    async ({ error }) => {
+    async () => {
       try {
         const [totalUsers, totalSites, totalEvents, totalSessions] = await Promise.all([
           UserModel.countDocuments(),
@@ -87,10 +90,11 @@ export const adminRoutes = new Elysia({ prefix: '/admin', tags: ['Admin'] })
           },
         }
       } catch (err: any) {
-        return error(500, {
+        set.status = 500
+        return {
           success: false,
           error: { code: 'STATS_FAILED', message: err.message },
-        })
+        }
       }
     },
     { detail: { summary: 'Platform istatistikleri' } }

@@ -28,7 +28,7 @@ export const refreshJWT = new Elysia({ name: 'refresh-jwt' }).use(
  */
 export const authMiddleware = new Elysia({ name: 'auth-middleware' })
   .use(accessJWT)
-  .derive({ as: 'global' }, async ({ accessJWT, headers, error }) => {
+  .derive({ as: 'global' }, async ({ accessJWT, headers }) => {
     const authHeader = headers.authorization
     if (!authHeader?.startsWith('Bearer ')) {
       return { user: null }
@@ -57,12 +57,13 @@ export const authMiddleware = new Elysia({ name: 'auth-middleware' })
 export function requireAuth() {
   return new Elysia({ name: 'require-auth' })
     .use(authMiddleware)
-    .onBeforeHandle(({ user, error }) => {
+    .onBeforeHandle(({ user, set }) => {
       if (!user) {
-        return error(401, {
+        set.status = 401
+        return {
           success: false,
           error: { code: 'UNAUTHORIZED', message: 'Bu işlem için giriş yapmanız gerekiyor.' },
-        })
+        }
       }
     })
 }
@@ -73,18 +74,20 @@ export function requireAuth() {
 export function requireOwner() {
   return new Elysia({ name: 'require-owner' })
     .use(authMiddleware)
-    .onBeforeHandle(({ user, error }) => {
+    .onBeforeHandle(({ user, set }) => {
       if (!user) {
-        return error(401, {
+        set.status = 401
+        return {
           success: false,
           error: { code: 'UNAUTHORIZED', message: 'Bu işlem için giriş yapmanız gerekiyor.' },
-        })
+        }
       }
       if (user.role !== 'owner') {
-        return error(403, {
+        set.status = 403
+        return {
           success: false,
           error: { code: 'FORBIDDEN', message: 'Bu işlem için yetkiniz yok.' },
-        })
+        }
       }
     })
 }

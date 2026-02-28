@@ -117,7 +117,7 @@
           <p class="text-xs text-muted-foreground">DNS TXT kaydınıza şunu ekleyin:</p>
           <div class="flex items-center gap-2 p-3 bg-muted rounded-md font-mono text-xs break-all">
             <span class="flex-1">lumina-verify={{ createdSite?.verificationToken }}</span>
-            <button class="shrink-0 text-muted-foreground hover:text-foreground" @click="copy(`lumina-verify=${createdSite?.verificationToken}`)">
+            <button class="shrink-0 text-muted-foreground hover:text-foreground" @click="copyDnsTxt">
               <LucideCopy class="size-3.5" />
             </button>
           </div>
@@ -127,7 +127,7 @@
           <p class="text-xs text-muted-foreground">HTML'nizin <code>&lt;head&gt;</code> bölümüne şunu ekleyin:</p>
           <div class="flex items-center gap-2 p-3 bg-muted rounded-md font-mono text-xs break-all">
             <span class="flex-1">&lt;meta name="lumina-verify" content="{{ createdSite?.verificationToken }}"&gt;</span>
-            <button class="shrink-0 text-muted-foreground hover:text-foreground" @click="copy(`<meta name=\"lumina-verify\" content=\"${createdSite?.verificationToken}\">`)">
+            <button class="shrink-0 text-muted-foreground hover:text-foreground" @click="copyMetaTag">
               <LucideCopy class="size-3.5" />
             </button>
           </div>
@@ -220,6 +220,14 @@ const verifyError = ref('')
 
 function copy(text: string) {
   navigator.clipboard.writeText(text)
+}
+
+function copyDnsTxt() {
+  copy(`lumina-verify=${createdSite.value?.verificationToken}`)
+}
+
+function copyMetaTag() {
+  copy(`<meta name="lumina-verify" content="${createdSite.value?.verificationToken}">`)
 }
 
 async function handleCreate() {

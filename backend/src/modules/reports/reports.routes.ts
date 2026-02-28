@@ -52,7 +52,7 @@ export const reportsRoutes = new Elysia({ prefix: '/reports', tags: ['Reports'] 
   // GET /reports/overview
   .get(
     '/overview',
-    async ({ query, error }) => {
+    async ({query, set}) => {
       const filters = {
         siteId: query.siteId,
         from: new Date(query.from),
@@ -63,7 +63,8 @@ export const reportsRoutes = new Elysia({ prefix: '/reports', tags: ['Reports'] 
         const data = await cachedReport(cacheKey, () => getOverview(filters))
         return { success: true, data }
       } catch (err: any) {
-        return error(500, { success: false, error: { code: 'REPORT_FAILED', message: err.message } })
+        set.status = 500
+        return { success: false, error: { code: 'REPORT_FAILED', message: err.message } }
       }
     },
     {
@@ -75,7 +76,7 @@ export const reportsRoutes = new Elysia({ prefix: '/reports', tags: ['Reports'] 
   // GET /reports/timeseries
   .get(
     '/timeseries',
-    async ({ query, error }) => {
+    async ({query, set}) => {
       const filters = {
         siteId: query.siteId,
         from: new Date(query.from),
@@ -87,7 +88,8 @@ export const reportsRoutes = new Elysia({ prefix: '/reports', tags: ['Reports'] 
         const data = await cachedReport(cacheKey, () => getTimeseries(filters))
         return { success: true, data }
       } catch (err: any) {
-        return error(500, { success: false, error: { code: 'REPORT_FAILED', message: err.message } })
+        set.status = 500
+        return { success: false, error: { code: 'REPORT_FAILED', message: err.message } }
       }
     },
     {
@@ -99,7 +101,7 @@ export const reportsRoutes = new Elysia({ prefix: '/reports', tags: ['Reports'] 
   // GET /reports/pages
   .get(
     '/pages',
-    async ({ query, error }) => {
+    async ({query, set}) => {
       const filters = {
         siteId: query.siteId,
         from: new Date(query.from),
@@ -115,7 +117,8 @@ export const reportsRoutes = new Elysia({ prefix: '/reports', tags: ['Reports'] 
           meta: { total: data.total, limit: filters.limit, offset: filters.offset },
         }
       } catch (err: any) {
-        return error(500, { success: false, error: { code: 'REPORT_FAILED', message: err.message } })
+        set.status = 500
+        return { success: false, error: { code: 'REPORT_FAILED', message: err.message } }
       }
     },
     {
@@ -127,7 +130,7 @@ export const reportsRoutes = new Elysia({ prefix: '/reports', tags: ['Reports'] 
   // GET /reports/sources
   .get(
     '/sources',
-    async ({ query, error }) => {
+    async ({query, set}) => {
       const filters = {
         siteId: query.siteId,
         from: new Date(query.from),
@@ -138,7 +141,8 @@ export const reportsRoutes = new Elysia({ prefix: '/reports', tags: ['Reports'] 
         const data = await cachedReport(cacheKey, () => getSources(filters))
         return { success: true, data }
       } catch (err: any) {
-        return error(500, { success: false, error: { code: 'REPORT_FAILED', message: err.message } })
+        set.status = 500
+        return { success: false, error: { code: 'REPORT_FAILED', message: err.message } }
       }
     },
     {
@@ -150,7 +154,7 @@ export const reportsRoutes = new Elysia({ prefix: '/reports', tags: ['Reports'] 
   // GET /reports/geo
   .get(
     '/geo',
-    async ({ query, error }) => {
+    async ({query, set}) => {
       const filters = {
         siteId: query.siteId,
         from: new Date(query.from),
@@ -161,7 +165,8 @@ export const reportsRoutes = new Elysia({ prefix: '/reports', tags: ['Reports'] 
         const data = await cachedReport(cacheKey, () => getGeo(filters))
         return { success: true, data }
       } catch (err: any) {
-        return error(500, { success: false, error: { code: 'REPORT_FAILED', message: err.message } })
+        set.status = 500
+        return { success: false, error: { code: 'REPORT_FAILED', message: err.message } }
       }
     },
     {
@@ -173,7 +178,7 @@ export const reportsRoutes = new Elysia({ prefix: '/reports', tags: ['Reports'] 
   // GET /reports/devices
   .get(
     '/devices',
-    async ({ query, error }) => {
+    async ({query, set}) => {
       const filters = {
         siteId: query.siteId,
         from: new Date(query.from),
@@ -184,7 +189,8 @@ export const reportsRoutes = new Elysia({ prefix: '/reports', tags: ['Reports'] 
         const data = await cachedReport(cacheKey, () => getDevices(filters))
         return { success: true, data }
       } catch (err: any) {
-        return error(500, { success: false, error: { code: 'REPORT_FAILED', message: err.message } })
+        set.status = 500
+        return { success: false, error: { code: 'REPORT_FAILED', message: err.message } }
       }
     },
     {
@@ -196,7 +202,7 @@ export const reportsRoutes = new Elysia({ prefix: '/reports', tags: ['Reports'] 
   // GET /reports/events
   .get(
     '/events',
-    async ({ query, error }) => {
+    async ({query, set}) => {
       const filters = {
         siteId: query.siteId,
         from: new Date(query.from),
@@ -212,7 +218,8 @@ export const reportsRoutes = new Elysia({ prefix: '/reports', tags: ['Reports'] 
           meta: { total: data.total, limit: filters.limit, offset: filters.offset },
         }
       } catch (err: any) {
-        return error(500, { success: false, error: { code: 'REPORT_FAILED', message: err.message } })
+        set.status = 500
+        return { success: false, error: { code: 'REPORT_FAILED', message: err.message } }
       }
     },
     {
@@ -224,7 +231,7 @@ export const reportsRoutes = new Elysia({ prefix: '/reports', tags: ['Reports'] 
   // GET /reports/events/:eventName/properties
   .get(
     '/events/:eventName/properties',
-    async ({ params, query, error }) => {
+    async ({params, query, set}) => {
       try {
         const data = await getEventProperties(
           query.siteId,
@@ -234,7 +241,8 @@ export const reportsRoutes = new Elysia({ prefix: '/reports', tags: ['Reports'] 
         )
         return { success: true, data }
       } catch (err: any) {
-        return error(500, { success: false, error: { code: 'REPORT_FAILED', message: err.message } })
+        set.status = 500
+        return { success: false, error: { code: 'REPORT_FAILED', message: err.message } }
       }
     },
     {

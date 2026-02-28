@@ -17,15 +17,16 @@ export const authRoutes = new Elysia({ prefix: '/auth', tags: ['Auth'] })
   // POST /auth/register
   .post(
     '/register',
-    async ({ body, error }) => {
+    async ({ body, set }) => {
       try {
         const user = await authService.registerUser(body)
         return { success: true, data: { user } }
       } catch (err: any) {
-        return error(err.status ?? 400, {
+        set.status = err.status ?? 400
+        return {
           success: false,
           error: { code: err.code ?? 'REGISTER_FAILED', message: err.message },
-        })
+        }
       }
     },
     {
@@ -40,17 +41,18 @@ export const authRoutes = new Elysia({ prefix: '/auth', tags: ['Auth'] })
   // POST /auth/login
   .post(
     '/login',
-    async ({ body, accessJWT, error }) => {
+    async ({ body, accessJWT, set }) => {
       try {
         const result = await authService.loginUser(body, (p) =>
           accessJWT.sign(p as Record<string, unknown>)
         )
         return { success: true, data: result }
       } catch (err: any) {
-        return error(err.status ?? 401, {
+        set.status = err.status ?? 401
+        return {
           success: false,
           error: { code: err.code ?? 'LOGIN_FAILED', message: err.message },
-        })
+        }
       }
     },
     {
@@ -62,7 +64,7 @@ export const authRoutes = new Elysia({ prefix: '/auth', tags: ['Auth'] })
   // POST /auth/refresh
   .post(
     '/refresh',
-    async ({ body, refreshJWT, accessJWT, error }) => {
+    async ({ body, refreshJWT, accessJWT, set }) => {
       try {
         const result = await authService.refreshAccessToken(
           body.refreshToken,
@@ -71,10 +73,11 @@ export const authRoutes = new Elysia({ prefix: '/auth', tags: ['Auth'] })
         )
         return { success: true, data: result }
       } catch (err: any) {
-        return error(err.status ?? 401, {
+        set.status = err.status ?? 401
+        return {
           success: false,
           error: { code: err.code ?? 'REFRESH_FAILED', message: err.message },
-        })
+        }
       }
     },
     {
@@ -118,15 +121,16 @@ export const authRoutes = new Elysia({ prefix: '/auth', tags: ['Auth'] })
   // POST /auth/reset-password
   .post(
     '/reset-password',
-    async ({ body, error }) => {
+    async ({ body, set }) => {
       try {
         await authService.resetPassword(body.token, body.password)
         return { success: true, data: { message: 'Şifreniz başarıyla güncellendi.' } }
       } catch (err: any) {
-        return error(err.status ?? 400, {
+        set.status = err.status ?? 400
+        return {
           success: false,
           error: { code: err.code ?? 'RESET_FAILED', message: err.message },
-        })
+        }
       }
     },
     {
@@ -138,15 +142,16 @@ export const authRoutes = new Elysia({ prefix: '/auth', tags: ['Auth'] })
   // POST /auth/verify-email
   .post(
     '/verify-email',
-    async ({ body, error }) => {
+    async ({ body, set }) => {
       try {
         await authService.verifyEmail((body as any).token)
         return { success: true, data: { message: 'E-posta adresiniz doğrulandı.' } }
       } catch (err: any) {
-        return error(err.status ?? 400, {
+        set.status = err.status ?? 400
+        return {
           success: false,
           error: { code: err.code ?? 'VERIFY_FAILED', message: err.message },
-        })
+        }
       }
     },
     {

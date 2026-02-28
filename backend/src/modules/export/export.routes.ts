@@ -24,7 +24,7 @@ export const exportRoutes = new Elysia({ prefix: '/export', tags: ['Export'] })
   // POST /export — export başlat
   .post(
     '/',
-    async ({ body, error }) => {
+    async ({body, set}) => {
       try {
         const jobId = await createExportJob(body)
         return {
@@ -35,10 +35,11 @@ export const exportRoutes = new Elysia({ prefix: '/export', tags: ['Export'] })
           },
         }
       } catch (err: any) {
-        return error(500, {
+        set.status = 500
+        return {
           success: false,
           error: { code: 'EXPORT_FAILED', message: err.message },
-        })
+        }
       }
     },
     {
@@ -53,14 +54,15 @@ export const exportRoutes = new Elysia({ prefix: '/export', tags: ['Export'] })
   // GET /export/:jobId/status — durum sorgula
   .get(
     '/:jobId/status',
-    async ({ params, error }) => {
+    async ({params, set}) => {
       try {
         const job = await getExportJobStatus(params.jobId)
         if (!job) {
-          return error(404, {
+          set.status = 404
+          return {
             success: false,
             error: { code: 'JOB_NOT_FOUND', message: 'Export işi bulunamadı.' },
-          })
+          }
         }
         return {
           success: true,
@@ -73,10 +75,11 @@ export const exportRoutes = new Elysia({ prefix: '/export', tags: ['Export'] })
           },
         }
       } catch (err: any) {
-        return error(500, {
+        set.status = 500
+        return {
           success: false,
           error: { code: 'STATUS_FAILED', message: err.message },
-        })
+        }
       }
     },
     {
