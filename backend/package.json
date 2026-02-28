@@ -1,7 +1,7 @@
 {
-  "name": "smartanalytics-backend",
+  "name": "lumina-backend",
   "version": "1.0.0",
-  "description": "SmartAnalytics Backend - Google Analytics alternatifi analitik platformu",
+  "description": "Lumina Analytics Backend — Gizlilik odaklı, self-hosted web analitik platformu. GDPR uyumlu, gerçek zamanlı ziyaretçi takibi, oturum analizi ve kapsamlı raporlama API'si.",
   "module": "src/index.ts",
   "type": "module",
   "private": true,

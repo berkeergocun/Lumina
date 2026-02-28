@@ -1,4 +1,4 @@
-# SmartAnalytics — Backend PRD (Product Requirements Document)
+# Lumina Analytics — Backend PRD (Product Requirements Document)
 
 **Versiyon:** 1.0.0  
 **Tarih:** 28 Şubat 2026  
@@ -9,7 +9,7 @@
 
 ## 1. Ürün Özeti
 
-SmartAnalytics Backend; web sitesi sahiplerine gerçek zamanlı ziyaretçi takibi, oturum analizi, özel etkinlik yönetimi ve kapsamlı raporlama imkânı sunan, gizlilik odaklı (GDPR uyumlu) bir analitik platformunun sunucu katmanıdır.
+Lumina Backend; web sitesi sahiplerine gerçek zamanlı ziyaretçi takibi, oturum analizi, özel etkinlik yönetimi ve kapsamlı raporlama imkânı sunan, gizlilik odaklı (GDPR uyumlu) bir analitik platformunun sunucu katmanıdır.
 
 **Teknoloji Yığını:**
 
@@ -310,7 +310,7 @@ db.daily_aggregates.createIndex({ siteId: 1, date: -1 }, { unique: true })
 ### 7.1 Base URL
 
 ```
-https://api.smartanalytics.io/api/v1
+https://api.lumina.io/api/v1
 ```
 
 ### 7.2 Endpoint Listesi
@@ -418,7 +418,7 @@ GET    /admin/stats
 <script
   async
   defer
-  src="https://cdn.smartanalytics.io/tracker.js"
+  src="https://cdn.lumina.io/tracker.js"
   data-site-id="abc123xyz456"
 ></script>
 ```
@@ -426,8 +426,8 @@ GET    /admin/stats
 ### 8.3 Özel Etkinlik API'si
 
 ```js
-SmartAnalytics.track('button_click', { button: 'signup', plan: 'pro' });
-SmartAnalytics.identify('user-123'); // anonim ID ile eşleme
+Lumina.track('button_click', { button: 'signup', plan: 'pro' });
+Lumina.identify('user-123'); // anonim ID ile eşleme
 ```
 
 ---
@@ -544,7 +544,7 @@ PORT=3001
 APP_URL=http://localhost:3001
 
 # MongoDB
-MONGODB_URI=mongodb://localhost:27017/smartanalytics
+MONGODB_URI=mongodb://localhost:27017/lumina
 
 # Redis
 REDIS_URL=redis://localhost:6379
@@ -560,7 +560,7 @@ SMTP_HOST=smtp.postmarkapp.com
 SMTP_PORT=587
 SMTP_USER=
 SMTP_PASS=
-EMAIL_FROM=noreply@smartanalytics.io
+EMAIL_FROM=noreply@lumina.io
 
 # GeoIP
 MAXMIND_DB_PATH=./data/GeoLite2-City.mmdb
@@ -570,7 +570,7 @@ REPORT_CACHE_TTL=300
 REALTIME_UPDATE_INTERVAL=5000
 
 # CDN
-TRACKER_CDN_URL=https://cdn.smartanalytics.io
+TRACKER_CDN_URL=https://cdn.lumina.io
 ```
 
 ---

@@ -1,4 +1,4 @@
-# SmartAnalytics API — Endpoint Dokümantasyonu
+# Lumina Analytics API — Endpoint Dokümantasyonu
 
 > **Base URL:** `http://localhost:3001/api/v1`  
 > **Swagger UI:** `http://localhost:3001/docs`  
@@ -366,7 +366,7 @@ Tracking snippet kodunu getir (HTML ve JS).
   "success": true,
   "data": {
     "html": "<script async src=\"http://localhost:3001/api/v1/collect/tracker.js\" data-site-id=\"s1a2b3c4d5e6\"></script>",
-    "js": "window.SmartAnalytics={siteId:'s1a2b3c4d5e6'}",
+    "js": "window.Lumina={siteId:'s1a2b3c4d5e6'}",
     "siteId": "s1a2b3c4d5e6",
     "verificationToken": "sa-verify-abc123"
   }
@@ -468,7 +468,7 @@ Kullanım:
 
 Manuel event:
 ```javascript
-window.SmartAnalytics.track('button_click', { button: 'signup' });
+window.Lumina.track('button_click', { button: 'signup' });
 ```
 
 ---

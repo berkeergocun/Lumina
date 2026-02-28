@@ -29,9 +29,9 @@ export const app = new Elysia()
       path: '/docs',
       documentation: {
         info: {
-          title: 'SmartAnalytics API',
+          title: 'Lumina Analytics API',
           version: '1.0.0',
-          description: 'Google Analytics alternatifi, gizlilik odaklı web analitik platformu.',
+          description: 'Lumina — Gizlilik odaklı (GDPR uyumlu), self-hosted web analitik platformu. Gerçek zamanlı ziyaretçi takibi, oturum analizi, coğrafi dağılım, cihaz raporları ve özel etkinlik izleme.',
         },
         tags: [
           { name: 'Auth',     description: 'Kimlik doğrulama & yetkilendirme' },

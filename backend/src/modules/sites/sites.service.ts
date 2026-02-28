@@ -43,7 +43,7 @@ export async function createSite(
   }
 
   const siteId = generateSiteId()
-  const verificationToken = `smartanalytics-verification=${crypto.randomUUID()}`
+  const verificationToken = `lumina-verification=${crypto.randomUUID()}`
 
   const site = await SiteModel.create({
     siteId,
@@ -126,7 +126,7 @@ export async function verifySite(siteId: string, ownerId: string) {
     verificationToken: site.verificationToken,
     instructions: {
       dns: `Adınızın TXT kaydına ekleyin: ${site.verificationToken}`,
-      meta: `<meta name="smartanalytics-verification" content="${site.verificationToken}">`,
+      meta: `<meta name="lumina-verification" content="${site.verificationToken}">`,
     },
   }
 }
@@ -137,7 +137,7 @@ export function getSnippet(siteId: string, ownerId: string) {
     snippet: generateTrackerSnippet(siteId),
     instructions: {
       html: `Head etiketinizin içine yerleştirin.`,
-      npm: `// npm ile: bun add @smartanalytics/tracker`,
+      npm: `// npm ile: bun add @lumina/tracker`,
       spa: `// SPA (React/Vue/Nuxt) desteği otomatikdir.`,
     },
   }

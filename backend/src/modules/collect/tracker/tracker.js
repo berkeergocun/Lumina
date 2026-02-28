@@ -1,5 +1,5 @@
 /**
- * SmartAnalytics Tracker — v1.0.0
+ * Lumina Analytics Tracker — v1.0.0
  * Gzip < 2 KB | Vanilla JS ES2017+
  * Kullanım: <script async defer src="..." data-site-id="YOUR_ID"></script>
  */
@@ -16,7 +16,7 @@
   var RESPECT_DNT = script ? script.getAttribute('data-dnt') !== 'false' : true
 
   if (!SITE_ID) {
-    console.warn('[SmartAnalytics] data-site-id eksik.')
+    console.warn('[Lumina] data-site-id eksik.')
     return
   }
 
@@ -141,7 +141,7 @@
   })
 
   // ─── Public API ────────────────────────────────────────────────────────────
-  window.SmartAnalytics = {
+  window.Lumina = {
     /**
      * Özel etkinlik takibi
      * @param {string} eventName - Etkinlik adı (max 64 karakter)

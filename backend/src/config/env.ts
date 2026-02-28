@@ -23,7 +23,7 @@ const envSchema = z.object({
   SMTP_PORT: z.coerce.number().optional(),
   SMTP_USER: z.string().optional(),
   SMTP_PASS: z.string().optional(),
-  EMAIL_FROM: z.string().email().default('noreply@smartanalytics.io'),
+  EMAIL_FROM: z.string().email().default('noreply@lumina.io'),
 
   // GeoIP
   MAXMIND_DB_PATH: z.string().default('./data/GeoLite2-City.mmdb'),

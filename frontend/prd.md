@@ -1,4 +1,4 @@
-# SmartAnalytics — Frontend PRD (Product Requirements Document)
+# Lumina Analytics — Frontend PRD (Product Requirements Document)
 
 **Versiyon:** 1.0.0  
 **Tarih:** 28 Şubat 2026  
@@ -9,7 +9,7 @@
 
 ## 1. Ürün Özeti
 
-SmartAnalytics Frontend; web analitik verilerini anlaşılır grafikler, tablolar ve gerçek zamanlı sayaçlarla sunan, Nuxt 4 ve Shadcn UI üzerine inşa edilmiş bir SaaS dashboard'udur. Kullanıcılar bu arayüz üzerinden web sitelerini yönetebilir, raporları inceleyebilir, özel etkinlikleri izleyebilir ve verilerini dışa aktarabilir.
+Lumina Frontend; web analitik verilerini anlaşılır grafikler, tablolar ve gerçek zamanlı sayaçlarla sunan, Nuxt 4 ve Shadcn UI üzerine inşa edilmiş bir SaaS dashboard'udur. Kullanıcılar bu arayüz üzerinden web sitelerini yönetebilir, raporları inceleyebilir, özel etkinlikleri izleyebilir ve verilerini dışa aktarabilir.
 
 **Teknoloji Yığını:**
 
@@ -506,7 +506,7 @@ NUXT_PUBLIC_API_BASE=http://localhost:3001/api/v1
 NUXT_PUBLIC_SSE_BASE=http://localhost:3001/api/v1
 
 # Uygulama
-NUXT_PUBLIC_APP_NAME=SmartAnalytics
+NUXT_PUBLIC_APP_NAME=Lumina
 NUXT_PUBLIC_APP_URL=http://localhost:3000
 
 # i18n
@@ -607,7 +607,7 @@ NUXT_PUBLIC_FF_2FA=true
 | Hero | Başlık, alt başlık, "Ücretsiz Başla" + "Demo İzle" CTA |
 | Özellikler | 6 özellik kartı (ikonlar + kısa açıklama) |
 | Ekran Görüntüleri | Dashboard mockup'ları (lightbox galeri) |
-| Karşılaştırma | SmartAnalytics vs Google Analytics tablo |
+| Karşılaştırma | Lumina vs Google Analytics tablo |
 | Fiyatlandırma | Ücretsiz / Pro / Kurumsal kart (v1.1) |
 | SSS | Accordion bileşeni |
 | Footer | Linkler, sosyal medya, telif hakkı |

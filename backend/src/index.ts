@@ -8,7 +8,7 @@ import { startAggregateWorker, stopAggregateWorker } from './workers/aggregate.w
 import { startCleanupWorker,   stopCleanupWorker   } from './workers/cleanup.worker.ts'
 
 async function bootstrap() {
-  logger.info('SmartAnalytics backend başlatılıyor…')
+  logger.info('Lumina Analytics backend başlatılıyor…')
 
   // 1. Veritabanı bağlantıları
   await connectMongoDB()
