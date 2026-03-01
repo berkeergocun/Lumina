@@ -17,15 +17,17 @@
           <h2 class="text-sm font-semibold mb-1">HTML Script Etiketi</h2>
           <p class="text-xs text-muted-foreground">Sitenizin <code class="bg-muted px-1 rounded">&lt;head&gt;</code> bölümüne ekleyin</p>
         </div>
-        <div class="relative">
+        <div class="space-y-2">
+          <div class="flex items-center justify-end">
+            <button
+              class="inline-flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium border border-border rounded-md bg-background hover:bg-muted transition-colors"
+              @click="copy(snippet.html)"
+            >
+              <LucideCopy class="size-3" />
+              {{ copied ? 'Kopyalandı!' : 'Kopyala' }}
+            </button>
+          </div>
           <pre class="p-4 bg-muted rounded-lg text-xs font-mono overflow-auto">{{ snippet.html }}</pre>
-          <button
-            class="absolute top-2 right-2 inline-flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium border border-border rounded bg-background hover:bg-muted transition-colors"
-            @click="copy(snippet.html)"
-          >
-            <LucideCopy class="size-3" />
-            {{ copied ? 'Kopyalandı!' : 'Kopyala' }}
-          </button>
         </div>
       </div>
 

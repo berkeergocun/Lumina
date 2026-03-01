@@ -26,6 +26,9 @@ export async function registerUser(data: {
     throw Object.assign(new Error('Bu e-posta adresi zaten kayıtlı.'), { code: 'EMAIL_ALREADY_EXISTS', status: 409 })
   }
 
+  const userCount = await UserModel.countDocuments()
+  const role = userCount === 0 ? 'admin' : 'owner'
+
   const passwordHash = await bcrypt.hash(data.password, BCRYPT_ROUNDS)
   const verificationToken = crypto.randomUUID()
 
@@ -33,7 +36,7 @@ export async function registerUser(data: {
     name: data.name,
     email: data.email.toLowerCase(),
     passwordHash,
-    role: 'owner',
+    role,
     isVerified: false,
     verificationToken,
   })

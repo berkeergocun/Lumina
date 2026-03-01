@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="mb-6">
+    <div v-if="!success" class="mb-6">
       <h1 class="text-xl font-semibold tracking-tight">Hesap Oluşturun</h1>
       <p class="text-muted-foreground text-sm mt-1">Lumina Analytics'e ücretsiz katılın</p>
     </div>

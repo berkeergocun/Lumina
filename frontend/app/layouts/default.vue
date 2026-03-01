@@ -21,20 +21,33 @@
       </div>
 
       <!-- Site Selector -->
-      <div :class="['border-b border-border shrink-0', uiStore.sidebarCollapsed ? 'p-2' : 'p-3']">
+      <div v-if="siteStore.sites.length > 0" :class="['border-b border-border shrink-0', uiStore.sidebarCollapsed ? 'p-2' : 'p-3']">
         <template v-if="!uiStore.sidebarCollapsed">
-          <div class="relative">
-            <select
-              v-model="activeSiteId"
-              class="w-full text-xs bg-muted/50 rounded-md px-3 py-2 border border-border/60 focus:outline-none focus:ring-1 focus:ring-ring appearance-none cursor-pointer text-foreground pr-7"
-              @change="onSiteChange"
+          <!-- Custom dropdown -->
+          <div class="relative" ref="dropdownRef">
+            <button
+              class="w-full flex items-center justify-between text-xs bg-muted/50 rounded-md px-3 py-2 border border-border/60 focus:outline-none focus:ring-1 focus:ring-ring cursor-pointer text-foreground hover:bg-muted/80 transition-colors"
+              @click="dropdownOpen = !dropdownOpen"
             >
-              <option value="" disabled>Site seçin...</option>
-              <option v-for="site in siteStore.sites" :key="site.siteId" :value="site.siteId">
+              <span class="truncate">{{ siteStore.activeSite?.name ?? 'Site seçin...' }}</span>
+              <LucideChevronsUpDown class="size-3 text-muted-foreground shrink-0 ml-1" />
+            </button>
+            <div
+              v-if="dropdownOpen"
+              class="absolute left-0 right-0 top-full mt-1 z-50 bg-card border border-border rounded-md shadow-lg overflow-hidden"
+            >
+              <button
+                v-for="site in siteStore.sites"
+                :key="site.siteId"
+                :class="[
+                  'w-full text-left px-3 py-2 text-xs hover:bg-muted transition-colors truncate',
+                  site.siteId === siteStore.activeSiteId ? 'text-foreground font-medium' : 'text-muted-foreground',
+                ]"
+                @click="selectSite(site)"
+              >
                 {{ site.name }}
-              </option>
-            </select>
-            <LucideChevronsUpDown class="absolute right-2 top-1/2 -translate-y-1/2 size-3 text-muted-foreground pointer-events-none" />
+              </button>
+            </div>
           </div>
         </template>
         <template v-else>
@@ -187,11 +200,21 @@ const siteStore = useSiteStore()
 const uiStore = useUIStore()
 const { logout } = useAuth()
 
-const activeSiteId = ref(siteStore.activeSiteId ?? '')
+const dropdownOpen = ref(false)
+const dropdownRef = ref<HTMLElement | null>(null)
 
-watch(() => siteStore.activeSiteId, (id) => {
-  activeSiteId.value = id ?? ''
+// Dışa tıklayınca kapat
+onMounted(() => {
+  document.addEventListener('click', onClickOutside)
 })
+onUnmounted(() => {
+  document.removeEventListener('click', onClickOutside)
+})
+function onClickOutside(e: MouseEvent) {
+  if (dropdownRef.value && !dropdownRef.value.contains(e.target as Node)) {
+    dropdownOpen.value = false
+  }
+}
 
 const userInitial = computed(() => authStore.user?.name?.[0]?.toUpperCase() ?? 'U')
 const currentSiteId = computed(() => (route.params.siteId as string) || siteStore.activeSiteId || '')
@@ -228,11 +251,10 @@ function isActive(path: string) {
   return route.path.startsWith(path)
 }
 
-function onSiteChange() {
-  if (activeSiteId.value) {
-    siteStore.setActiveSiteById(activeSiteId.value)
-    navigateTo(`/dashboard/${activeSiteId.value}`)
-  }
+function selectSite(site: any) {
+  siteStore.setActiveSite(site)
+  dropdownOpen.value = false
+  navigateTo(`/dashboard/${site.siteId}`)
 }
 
 function toggleTheme() {
@@ -255,9 +277,6 @@ onMounted(async () => {
           const savedId = import.meta.client ? localStorage.getItem('activeSiteId') : null
           const found = res.data.find((s: any) => s.siteId === savedId) ?? res.data[0]
           siteStore.setActiveSite(found)
-          activeSiteId.value = found.siteId
-        } else if (siteStore.activeSite) {
-          activeSiteId.value = siteStore.activeSite.siteId
         }
       }
     } catch {}
